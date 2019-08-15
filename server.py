@@ -1,18 +1,23 @@
 from flask import Flask, render_template, redirect, request, jsonify
 from adyen_api import ady
 
-app = Flask(__name__) #Instanciate a Flask app object
 
+app = Flask(__name__) #Instanciate a Flask app object
 app.secret_key = "Test" #Set the object's secret_key attribute 
+
 
 @app.route('/')
 def confirm_app():
 
     return "Hello"
 
+
 @app.route('/paymentMethods', methods = ['POST'])
 def get_avail_methods():
-    '''get a list of payment methods available to your shopper''' 
+    '''get a list of payment methods available to your shopper
+    below result request code from:
+    https://docs.adyen.com/checkout/api-only#step-1-get-available-payment-methods
+    ''' 
     
     result = ady.checkout.payment_methods({
         'merchantAccount': 'YOUR_MERCHANT_ACCOUNT',
