@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, json
+from flask import Flask, url_for, request, json, Response
 
 app = Flask(__name__)
 
@@ -47,10 +47,23 @@ def api_message():
     elif request.headers['Content-Type'] == 'application/octet-stream':
         f = open('./binary', 'wb')
         f.write(request.data)
-            f.close()
+        f.close()
         return "Binary message written!"
     else:
         return "415 Unsupported Media Type ;)"         
+
+@app.route('/hello2', methods = ['GET'])
+def api_hello2():
+    data = {
+        'hello': 'world',
+        'number': 3
+    }
+    js = json.dumps(data)
+
+    resp = Response(js, status=200, mimetype='application/json')
+    resp.headers['Link'] = 'http://luisrei.com'
+
+    return resp
 
 
 if __name__ == '__main__':
