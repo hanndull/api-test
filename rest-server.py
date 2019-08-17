@@ -4,17 +4,21 @@ from flask import Flask, url_for, request, json, Response, jsonify
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def api_root():
     return 'Welcome'
+
 
 @app.route('/articles')
 def api_articles():
     return 'List of' + url_for('api_articles')
 
+
 @app.route('/articles/<articleid>')
 def api_article(articleid):
     return 'You are reading ' + articleid
+
 
 @app.route('/hello')
 def api_hello():
@@ -22,6 +26,7 @@ def api_hello():
         return 'Hello, ' + request.args['name']
     else:
         return 'Hello, John Doe'
+
 
 @app.route('/echo', methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'])
 def api_echo():
@@ -36,6 +41,7 @@ def api_echo():
 
     elif request.method == 'DELETE':
         return "ECHO: DELETE\n"
+
 
 @app.route('/messages', methods = ['POST'])
 def api_message():
@@ -54,6 +60,7 @@ def api_message():
     else:
         return "415 Unsupported Media Type ;)"         
 
+
 @app.route('/hello2', methods = ['GET'])
 def api_hello2():
     data = {
@@ -70,6 +77,15 @@ def api_hello2():
 
     return resp
 
+
+@app.route('/payment', methods = ['POST'])
+def show_payment_status():
+
+    if request.method == 'POST':
+        
+        return "ECHO: POST\n" + json.dumps(request.json)
+
+
 @app.errorhandler(404)
 def not_found(error=None):
     message = {
@@ -80,6 +96,7 @@ def not_found(error=None):
     resp.status_code = 404
 
     return resp
+
 
 @app.route('/users/<userid>', methods = ['GET'])
 def api_users(userid):
@@ -93,4 +110,3 @@ def api_users(userid):
 
 if __name__ == '__main__':
     app.run()
-
