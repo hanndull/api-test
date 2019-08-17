@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, json, Response
+from flask import Flask, url_for, request, json, Response, jsonify
 
 app = Flask(__name__)
 
@@ -58,9 +58,12 @@ def api_hello2():
         'hello': 'world',
         'number': 3
     }
-    js = json.dumps(data)
+    # js = json.dumps(data)
 
-    resp = Response(js, status=200, mimetype='application/json')
+    # resp = Response(js, status=200, mimetype='application/json')
+    resp = jsonify(data)
+    resp.status_code = 200
+
     resp.headers['Link'] = 'http://luisrei.com'
 
     return resp
